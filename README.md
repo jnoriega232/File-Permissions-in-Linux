@@ -7,36 +7,34 @@ The research team in the fictional organization I'm describing is in the process
 The provided code exemplifies my utilization of Linux commands to ascertain the current permissions configured for a particular directory within the file system.
 
 <p align="center">
-<img src="hhttps://i.imgur.com/LgGnWj5.png" height="70%" width="70%" alt="Azure Free Account"/> 
-</p>
+<img src="https://i.imgur.com/LgGnWj5.png" height="80%" width="80%" alt="Azure Free Account"/>
 
-## Technologies, Regulations, and Azure Components Employed:
-- Utilization of Azure Virtual Network (VNet)
-- Implementation of Azure Network Security Group (NSG)
-- Deployment of Azure Virtual Machines (2x Windows, 1x Linux)
-- Creation of a Log Analytics Workspace with Kusto Query Language (KQL) Queries
-- Adoption of Azure Key Vault for Secure Secrets Management
-- Establishment of an Azure Storage Account for Data Storage
-- Integration of Microsoft Sentinel for Security Information and Event Management (SIEM)
-- Utilization of Microsoft Defender for Cloud to Protect Cloud Resources
-- Incorporation of Windows Remote Desktop for Remote Access
-- Utilization of Command Line Interface (CLI) for System Management
-- Utilization of PowerShell for Automation and Configuration Management
-- Adherence to NIST SP 800-53 Revision 4 for Security Controls
-- Implementation of NIST SP 800-61 Revision 2 for Incident Handling Guidance
+In the screenshot, the initial line showcases the command I input, while subsequent lines exhibit the resulting output. The code comprehensively enumerates the items within the ```projects``` directory. I employed the ```ls``` command with the ```-la``` option to reveal an elaborate list of file contents, encompassing hidden files. The output of my execution discloses the presence of a directory named ```drafts```, a concealed file labeled ```.project_x.txt```, and five additional project files. The initial 10-character string in the first column symbolizes the permissions designated for each individual file or directory.
 
-## Process
-- <b>*Establishing the honeynet*</b>: To simulate an insecure environment, I commenced by deploying multiple vulnerable virtual machines within Azure.
+## Describe the Permissions String
+The 10-character sequence can be dissected to discern the individuals with authorized access to the file and their respective permissions. The characters have the following interpretations:
 
-- <b>*Monitoring and analysis*</b>: I configured Azure to gather log data from various resources and consolidate them in a log analytics workspace. Leveraging Microsoft Sentinel, I constructed attack maps, triggered alerts, and generated incidents based on the acquired data.
+- 1st Character: A ```d``` or hyphen (```-```) signifies the file type. ```d``` indicates a directory, while (```-```) indicates a regular file.
 
-- <b>*Measuring security metrics*</b>: Throughout a 24-hour period, I diligently monitored the environment, documenting critical security metrics while it remained in an insecure state. This provided a benchmark for comparison against the metrics observed after implementing remedial measures.
+- 2nd-4th Characters: These characters denote the user's read (```r```), write (```w```), and execute (```x```) permissions. A hyphen (```-```) signifies the absence of the corresponding permission.
 
-- <b>*Incident response and remediation*</b>: Upon addressing the identified incidents and vulnerabilities, I embarked on the process of fortifying the environment. This involved implementing security best practices and following Azure-specific recommendations.
+- 5th-7th Characters: These characters denote the group's read (```r```), write (```w```), and execute (```x```) permissions. A hyphen (```-```) signifies the absence of the respective permission.
 
-- <b>*Post-remediation analysis*</b>: To evaluate the effectiveness of the implemented measures, I conducted another 24-hour observation of the environment. By comparing the resulting security metrics with the initial baseline, I gauged the impact of the remediation efforts.
+- 8th-10th Characters: These characters denote the "other" category's read (```r```), write (```w```), and execute (```x```) permissions. This category encompasses all users aside from the user and the group. A hyphen (```-```) indicates the lack of the specified permission.
 
-## Architecture Before Hardening / Security Controls
+As an illustration, let's take the file permissions of ```project_t.txt``` as an instance: ```-rw-rw-r--```. With a hyphen (```-```) as the first character, it's evident that ```project_t.txt``` is a file rather than a directory. The presence of ```r``` in the second, fifth, and eighth positions signifies that the user, group, and others possess read permissions. The third and sixth positions bear ```w```, indicating that exclusively the user and group hold write permissions. Notably, no entity has execute permissions for ```project_t.txt```.
+
+## Change File Permissions
+The organization concluded that no write access should be granted to "other" for any of their files. To align with this directive, I revisited the file permissions I had previously retrieved. Upon analysis, I identified that write access for "other" needs to be revoked from ```project_k.txt```.
+
+The subsequent code exemplifies my utilization of Linux commands to accomplish this task:
+
+<p align="center">
+<img src="https://i.imgur.com/hq5GtTH.png" height="80%" width="80%" alt="Azure Free Account"/>
+
+The initial pair of lines within the screenshot showcases the commands I input, while the subsequent lines present the outcome of the second command. Utilizing the ```chmod``` command, permissions on files and directories are modified. The first argument dictates the permissions to be altered, and the second argument designates the file or directory. In this instance, I eliminated write permissions for "other" on the ```project_k.txt``` file. Following this adjustment, I employed ```ls -la``` to assess the modifications I implemented.
+
+## Change File Permissions on a Hidden File
 ![Architecture Diagram](https://i.imgur.com/uzwHvLp.png)
 
 <b>Prior to implementing hardening measures and security controls:</b>
