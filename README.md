@@ -9,7 +9,7 @@ The provided code exemplifies my utilization of Linux commands to ascertain the 
 <p align="center">
 <img src="https://i.imgur.com/LgGnWj5.png" height="70%" width="70%" alt="Azure Free Account"/>
 
-In the screenshot, the initial line showcases the command I input, while subsequent lines exhibit the resulting output. The code comprehensively enumerates the items within the ```projects``` directory. I employed the ```ls``` command with the ```-la``` option to reveal an elaborate list of file contents, encompassing hidden files. The output of my execution discloses the presence of a directory named ```drafts```, a concealed file labeled ```.project_x.txt```, and five additional project files. The initial 10-character string in the first column symbolizes the permissions designated for each individual file or directory.
+In the screenshot, the initial line showcases the command I input, while subsequent lines exhibit the resulting output. The code comprehensively enumerates the items within the ```projects``` directory. I employed the ```ls``` command with the ```-la``` option to reveal an elaborate list of file contents, encompassing hidden files. The output of my execution discloses the presence of a directory named ```drafts```, a concealed file labeled ```.project_x.txt```, and four additional project files. The initial 10-character string in the first column symbolizes the permissions designated for each individual file or directory.
 
 ## Describe the Permissions String
 The 10-character sequence can be dissected to discern the individuals with authorized access to the file and their respective permissions. The characters have the following interpretations:
