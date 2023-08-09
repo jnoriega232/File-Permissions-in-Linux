@@ -7,7 +7,7 @@ The research team in the fictional organization I'm describing is in the process
 The provided code exemplifies my utilization of Linux commands to ascertain the current permissions configured for a particular directory within the file system.
 
 <p align="center">
-<img src="https://i.imgur.com/LgGnWj5.png" height="80%" width="80%" alt="Azure Free Account"/>
+<img src="https://i.imgur.com/LgGnWj5.png" height="70%" width="70%" alt="Azure Free Account"/>
 
 In the screenshot, the initial line showcases the command I input, while subsequent lines exhibit the resulting output. The code comprehensively enumerates the items within the ```projects``` directory. I employed the ```ls``` command with the ```-la``` option to reveal an elaborate list of file contents, encompassing hidden files. The output of my execution discloses the presence of a directory named ```drafts```, a concealed file labeled ```.project_x.txt```, and five additional project files. The initial 10-character string in the first column symbolizes the permissions designated for each individual file or directory.
 
@@ -30,78 +30,29 @@ The organization concluded that no write access should be granted to "other" for
 The subsequent code exemplifies my utilization of Linux commands to accomplish this task:
 
 <p align="center">
-<img src="https://i.imgur.com/hq5GtTH.png" height="80%" width="80%" alt="Azure Free Account"/>
+<img src="https://i.imgur.com/hq5GtTH.png" height="70%" width="70%" alt="Azure Free Account"/>
 
 The initial pair of lines within the screenshot showcases the commands I input, while the subsequent lines present the outcome of the second command. Utilizing the ```chmod``` command, permissions on files and directories are modified. The first argument dictates the permissions to be altered, and the second argument designates the file or directory. In this instance, I eliminated write permissions for "other" on the ```project_k.txt``` file. Following this adjustment, I employed ```ls -la``` to assess the modifications I implemented.
 
 ## Change File Permissions on a Hidden File
-![Architecture Diagram](https://i.imgur.com/uzwHvLp.png)
+The research team within my organization has recently archived project_x.txt. Their intention is to restrict write access to this project for all individuals, while ensuring that only the user and the group retain read access.
 
-<b>Prior to implementing hardening measures and security controls:</b>
+The subsequent code exemplifies my utilization of Linux commands to modify the permissions:
 
-- During the initial phase of the project ("BEFORE" stage), all resources were deployed with deliberate exposure to the public internet. This deliberate lack of security was intended to entice potential cyber attackers and study their methodologies. The Virtual Machines had both their Network Security Groups (NSGs) and built-in firewalls configured to allow unrestricted access from any source. Furthermore, all other resources, including storage accounts and databases, were deployed with publicly accessible endpoints, without the utilization of Private Endpoints for enhanced security.
+<p align="center">
+<img src="https://i.imgur.com/XutGSOe.png" height="70%" width="70%" alt="Azure Free Account"/>
 
-## Architecture After Hardening / Security Controls
-![Architecture Diagram](https://i.imgur.com/EEuwLHJ.png)
+The initial pair of lines within the screenshot presents the commands I input, while the subsequent lines depict the results of the second command. Recognizing that ```.project_x.txt``` is a concealed file due to its initial period (```.```), I proceeded to make modifications. Specifically, I withdrew write permissions from both the user and the group, simultaneously introducing read permissions for the group. Achieving this involved the utilization of ```u-w``` to remove write permissions from the user, followed by ```g-w``` to eliminate write permissions from the group, and ```g+r``` to append read permissions to the group.
 
-<b>In the "AFTER" stage, I implemented a series of measures to fortify the environment's security and enhance its overall posture. The key improvements implemented include:</b>
+## Change Directory Permissions
+Within my organization, the directive is to restrict access to the drafts directory and its contents exclusively to the researcher2 user. As such, the aim is to ensure that execute permissions are granted solely to researcher2, with no other individuals having such privileges.
 
-- <b>Strengthening Network Security Groups (NSGs)</b>: I reinforced the NSGs by implementing a restrictive policy that blocked all inbound and outbound traffic, with the exception of my own public IP address. This ensured that only authorized traffic from a trusted source was granted access to the virtual machines.
+Below is an example showcasing my use of Linux commands to modify permissions:
 
-- <b>Configuring Built-in Firewalls</b>: I fine-tuned the configurations of the built-in firewalls on the virtual machines to impose restrictions on access, safeguarding the resources against unauthorized connections. By customizing the firewall rules based on the specific requirements of each virtual machine, I minimized the potential attack surface.
+<p align="center">
+<img src="https://i.imgur.com/TzQORxo.png" height="70%" width="70%" alt="Azure Free Account"/>
 
-- <b>Implementing Private Endpoints</b>: I bolstered the security of other Azure resources by replacing their public endpoints with Private Endpoints. This strategic shift restricted access to sensitive resources, such as storage accounts and databases, to within the virtual network, eliminating exposure to the public internet. This approach provided an additional layer of protection, guarding against unauthorized access and potential attacks.
+The initial pair of lines within the screenshot reveals the commands I input, while the subsequent lines exhibit the outcome of the second command. Building upon my earlier observation that the group possessed execute permissions, I employed the chmod command to eliminate them. Notably, the researcher2 user was already endowed with execute permissions, obviating the need for their addition.
 
-By conducting a comparative analysis of the security metrics before and after implementing these hardening measures and security controls, I effectively demonstrated the tangible enhancements made to the overall security posture of the Azure environment.
-
-## Attack Maps Before Hardening / Security Controls
-
-
-- <b>The depicted attack map vividly illustrates the ramifications of maintaining an open Network Security Group (NSG), enabling unhindered passage of malicious traffic. This visual representation serves as a powerful reminder of the criticality of deploying robust security measures, including stringent NSG rule restrictions, to thwart unauthorized access and mitigate potential threats effectively.</b>
-![NSG Allowed Inbound Malicious Flows](https://i.imgur.com/A1sRZgz.png)<br>
-
- - <b>The showcased attack map brings attention to the multitude of syslog authentication failures encountered by the deployed Linux server, signifying unauthorized access attempts originating externally. This serves as a powerful reminder of the utmost significance in fortifying Linux servers with robust authentication mechanisms and diligently monitoring system logs for indications of intrusion endeavors.</b>
-![Linux Syslog Auth Failures](https://i.imgur.com/2XLw6g5.png)<br>
-
-- <b>The presented attack map highlights a significant number of RDP and SMB failures, revealing the persistent efforts of potential attackers to exploit these protocols. This visualization effectively underscores the imperative nature of securing remote access and file sharing services, aiming to safeguard against unauthorized access and mitigate potential cyber threats.</b>
-![Windows RDP/SMB Auth Failures](https://i.imgur.com/vqAwad9.png)<br>
-
-## Attack Maps After Hardening / Security Controls
-
-```All map queries actually returned no results due to no instances of malicious activity for the 24 hour period after hardening.```
-
-## Metrics Before Hardening / Security Controls
-
-The following table shows the metrics we measured in our insecure environment for 24 hours:
-Start Time 2023-05-04 21:55:50
-Stop Time 2023-05-05 21:55:50
-
-| Metric                   | Count
-| ------------------------ | -----
-| SecurityEvent (Windows VM)           | 23146
-| Syslog (Linux VM)                  | 2123
-| SecurityAlert (Microsoft Defender for Cloud)           | 10
-| SecurityIncident (Sentinel Incidents)        | 267
-| NSG Inbound Malicious Flows Allowed | 865
-
-## Metrics After Hardening / Security Controls
-
-The following table shows the metrics we measured in our environment for another 24 hours, but after we have applied security controls:
-Start Time 2023-05-10 17:38:04
-Stop Time	2023-05-11 17:38:04
-
-| Metric                   | Count
-| ------------------------ | -----
-| SecurityEvent (Windows VM)           | 17718
-| Syslog (Linux VM)                  | 24
-| SecurityAlert (Microsoft Defender for Cloud)           | 0
-| SecurityIncident (Sentinel Incidents)        | 0
-| NSG Inbound Malicious Flows Allowed | 0
-
-## Conclusion
-
-Throughout this project, I successfully orchestrated the creation of a honeynet using Microsoft Azure. Subsequently, I diligently performed comprehensive logging and monitoring to detect and respond to any attacks targeting the virtual machines. Moreover, I meticulously analyzed these incidents to gain deeper insights into the tactics, techniques, and procedures employed by the attackers. Finally, I fortified the environment by implementing stringent security controls in alignment with regulatory compliance standards such as NIST 800-53 and NIST 800-61.
-
-The comparative analysis of pre- and post-implementation metrics revealed a notable reduction in security events and incidents, underscoring the effectiveness of the implemented security controls. It is important to note that in scenarios where the network's resources were extensively utilized by regular users, a higher number of security events and alerts may have been generated within the 24-hour timeframe following the implementation of security controls.
-
-This project has been an invaluable learning experience, reinforcing the paramount importance of maintaining robust security. It serves as a stark reminder of the significance of implementing appropriate security controls and configurations to safeguard valuable resources. The stark contrast between an insecure and a secure environment, as highlighted by the before and after metrics, underscores the criticality of implementing measures such as firewall rules, private endpoints, and restricted public internet access to mitigate the potentially catastrophic consequences of attacks and unauthorized access.
+## Summary
+I undertook several permission changes to align with my organization's desired level of authorization for files and directories within the projects directory. To initiate this process, I utilized the "ls -la" command to inspect the directory's existing permissions. This examination served as the foundation for my subsequent actions. Subsequently, I employed the "chmod" command on multiple occasions to systematically modify permissions across files and directories.
