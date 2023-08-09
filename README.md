@@ -45,14 +45,14 @@ The subsequent code exemplifies my utilization of Linux commands to modify the p
 The initial pair of lines within the screenshot presents the commands I input, while the subsequent lines depict the results of the second command. Recognizing that ```.project_x.txt``` is a concealed file due to its initial period (```.```), I proceeded to make modifications. Specifically, I withdrew write permissions from both the user and the group, simultaneously introducing read permissions for the group. Achieving this involved the utilization of ```u-w``` to remove write permissions from the user, followed by ```g-w``` to eliminate write permissions from the group, and ```g+r``` to append read permissions to the group.
 
 ## Change Directory Permissions
-Within my organization, the directive is to restrict access to the drafts directory and its contents exclusively to the researcher2 user. As such, the aim is to ensure that execute permissions are granted solely to researcher2, with no other individuals having such privileges.
+Within my organization, the directive is to restrict access to the ```drafts``` directory and its contents exclusively to the ```researcher2``` user. As such, the aim is to ensure that execute permissions are granted solely to ```researcher2```, with no other individuals having such privileges.
 
 Below is an example showcasing my use of Linux commands to modify permissions:
 
 <p align="center">
 <img src="https://i.imgur.com/TzQORxo.png" height="70%" width="70%" alt="Azure Free Account"/>
 
-The initial pair of lines within the screenshot reveals the commands I input, while the subsequent lines exhibit the outcome of the second command. Building upon my earlier observation that the group possessed execute permissions, I employed the chmod command to eliminate them. Notably, the researcher2 user was already endowed with execute permissions, obviating the need for their addition.
+The initial pair of lines within the screenshot reveals the commands I input, while the subsequent lines exhibit the outcome of the second command. Building upon my earlier observation that the group possessed execute permissions, I employed the ```chmod``` command to eliminate them. Notably, the ```researcher2``` user was already endowed with execute permissions, obviating the need for their addition.
 
 ## Summary
-I undertook several permission changes to align with my organization's desired level of authorization for files and directories within the projects directory. To initiate this process, I utilized the "ls -la" command to inspect the directory's existing permissions. This examination served as the foundation for my subsequent actions. Subsequently, I employed the "chmod" command on multiple occasions to systematically modify permissions across files and directories.
+I undertook several permission changes to align with my organization's desired level of authorization for files and directories within the ```projects``` directory. To initiate this process, I utilized the ```ls -la``` command to inspect the directory's existing permissions. This examination served as the foundation for my subsequent actions. Subsequently, I employed the ```chmod``` command on multiple occasions to systematically modify permissions across files and directories.
